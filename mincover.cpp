@@ -7,6 +7,18 @@ void print(int arr[20],int n);
 int same(int tempcl[20], int cl[20], int n);
 void copy(int tempcl[20],int cl[20], int n);
 
+int count(int arr[20],int n, int x)
+{
+  int cnt=0;
+  for(int i=1;i<=n;i++)
+  {
+    if(arr[i]==x)
+      cnt++;
+  }
+
+  return(cnt);
+}
+
 void print(int arr[20],int n)
 {
   for(int i=1;i<=n;i++)
@@ -110,21 +122,33 @@ int main()
 		{
 			cin>>x;
 			fd[i][x]=1;
+      lhs[x]=1;
 		}
 
 		cout<<"\nEnter no of RHS attributes: ";
 		cin>>r;
+    m=m+r-1;
 		cout<<"\nEnter RHS attributes: ";
-		for(int k=0;k<r;k++)
-		{
+
 			cin>>x;
 			fd[i][x]=-1;
+    for(int k=0;k<r-1;k++)
+  	{
+      i++;
+      copy(fd[i],lhs,n);
+      cin>>x;
+      fd[i][x]=-1;
+      fd[i][0]=1;
+
+
 		}
 
 		fd[i][0]=1;
 	}
 
-  // Splitting RHS
+  // Splitting RHS done.
+
+
 
 	cout<<"\nFDs are: "<<endl;
 	for(int i=0;i<m;i++)
@@ -139,6 +163,7 @@ int main()
   for(int i=0;i<m;i++) // every FD
   {
     initialise(cl,n);
+
     for(int j=1;j<=n;j++)
     {
       if(fd[i][j]==1)
@@ -182,7 +207,7 @@ int main()
     initialise(clwo,n);
     copy(clwo,attr,n); //copies attr to clwo;
 
-    cout<<"\nFinding closure of: ";
+    cout<<"\nFinding closure of ";
     print(clwo,n);
     cout<<"without the FD: ";
     initialise(tempcl,n);
